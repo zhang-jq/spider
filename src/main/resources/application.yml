@@ -1,0 +1,17 @@
+server:
+  port: 8080
+mybatis:
+  mapper-locations: classpath*:mapper/*Mapper.xml
+  configuration:
+    map-underscore-to-camel-case: true
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/product?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: root
+logging:
+  level:
+    com.spider.gbwchina: debug
+    org.springframework.web: debug
+    org.mybatis: debug
+  file: D:\gbwchina.log
