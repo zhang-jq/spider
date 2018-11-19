@@ -34,7 +34,7 @@ CREATE TABLE `product_instrument`  (
   `goods_img` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `params` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_time` timestamp,
+  `updated_time` timestamp NULL DEFAULT NULL,
   `standard_value` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `cds_number` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `development_unit` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,

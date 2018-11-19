@@ -42,10 +42,10 @@ public class InstrumentPipeline implements Pipeline {
             return;
         Product oldProduct = productService.findByUrlByTableName(product.getGoodsUrl(), TABLE);
         if (oldProduct != null) {
-            //如果创建时间为今天，则更新时间赋值null
-            LocalDate localDate = LocalDate.now();
-            SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-            String createdTime = sdf.format(oldProduct.getCreatedTime());
+//            //如果创建时间为今天，则更新时间赋值null
+//            LocalDate localDate = LocalDate.now();
+//            SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+//            String createdTime = sdf.format(oldProduct.getCreatedTime());
 //            if (createdTime.contains(localDate.toString()))
 //                oldProduct.setUpdatedTime(null);
 //            else
