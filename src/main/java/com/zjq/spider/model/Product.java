@@ -39,6 +39,16 @@ public class Product {
     private String goodsName;
 
     /**
+     * 产品英文名
+     */
+    private String goodsEnglishName;
+
+    /**
+     * 产品别名
+     */
+    private String goodsAlias;
+
+    /**
      * 分类
      */
     private String cat;
@@ -89,9 +99,29 @@ public class Product {
     private String cdsNumber;
 
     /**
+     * CAS号
+     */
+    private String casNumber;
+
+    /**
      * 研制单位
      */
     private String developmentUnit;
+
+    /**
+     * 分子结构
+     */
+    private String molecularStructure;
+
+    /**
+     * 分子式
+     */
+    private String molecularFormula;
+
+    /**
+     * 分子量
+     */
+    private String molecularWeight;
 
     /**
      * 存入字表的参数

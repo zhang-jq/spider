@@ -3,7 +3,7 @@ package com.zjq.spider.processor;
 import com.zjq.spider.Constant;
 import com.zjq.spider.downloader.SimpleHttpClientDownloader;
 import com.zjq.spider.model.Product;
-import com.zjq.spider.pipeline.InstrumentPipeline;
+import com.zjq.spider.pipeline.IchemistryPipeline;
 import com.zjq.spider.spider.SimpleSpider;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -18,11 +18,7 @@ import javax.management.JMException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class IchemistryProcessor implements PageProcessor {
 
@@ -60,105 +56,39 @@ public class IchemistryProcessor implements PageProcessor {
             page.addTargetRequests(alist);
         } else if (url.contains("/chemistry") && url.contains(".htm")) {
             Elements trEles = doc.select("table[class=ChemicalInfo] tr");
+            if (trEles.size() == 0)
+                return;
+            Product product = new Product();
+            product.setGoodsUrl(url);
+            String desc = doc.select("table[class=ChemicalInfo]").outerHtml();
+            if (!StringUtils.isEmpty(desc))
+                product.setGoodsDesc(desc);
             trEles.stream().forEach(tr -> {
                 Elements tdEles = tr.select("td");
                 if (tdEles.size() > 1) {
                     String name = tdEles.get(0).text();
                     String value = tdEles.get(1).text();
                     if (name.contains("中文名")) {
-
+                        product.setGoodsName(value);
                     } else if (name.contains("英文名")) {
-
-                    } else if (name.contains("英文名")) {
-
+                        product.setGoodsEnglishName(value);
                     } else if (name.contains("别名")) {
-
+                        product.setGoodsAlias(value);
                     } else if (name.contains("分子结构")) {
-
+                        String img = tdEles.select("img").attr("abs:src");
+                        product.setMolecularStructure(img);
                     } else if (name.contains("分子式")) {
-
+                        product.setMolecularFormula(value);
                     } else if (name.contains("分子量")) {
-
+                        product.setMolecularWeight(value);
                     } else if (name.contains("CAS登录号")) {
-
+                        product.setCasNumber(value);
                     }
                 }
             });
-            List alist = doc.select("div[class=F18 Fw L30 L]")
-                    .stream()
-                    .map(a -> a.select("a").attr("abs:href"))
-                    .collect(Collectors.toList());
-            if (doc.select("a[class=next]").size() > 0) {
-                alist.add(doc.select("a[class=next]").attr("abs:href"));
-            }
-            page.addTargetRequests(alist);
-        } else {
-            Product product = new Product();
-            //连接
-            product.setGoodsUrl(url);
-            //名字
-            Elements name = doc.select("div[class=L40 Fw F18 L]");
-            if (name.size() > 0) {
-                product.setGoodsName(name.text());
-            }
-            //分类
-            Elements cat = doc.select("div[class= W960 L14 G6]");
-            if (cat.size() > 0) {
-                product.setCat(cat.text());
-            }
-            //图片
-            Elements image = doc.select("#ProPicBig");
-            if (image.size() > 0) {
-                product.setGoodsImg(image.attr("abs:src"));
-            }
-            //参数
-            Elements params = doc.select("div[class=Line F14 G6]");
-            if (params.size() > 1) {
-                //核心参数
-                product.setParams(params.get(1).html());
-            }
-            if (params.size() > 0) {
-                //获取型号和基本参数
-                Elements trEles = params.get(0).select("tr");
-                List<Map<String, String>> paramList = new ArrayList<>();
-                trEles.stream().forEach(tr -> {
-                    Elements tdEles = tr.select("td");
-                    if (tdEles.size() % 2 == 0) {
-                        for(int i = 0; i < tdEles.size(); i = i + 2) {
-                            if (tdEles.get(i).text().contains("型号")) {
-                                product.setGoodsSn(tdEles.get(i + 1).text());
-                            } else {
-                                Map paramMap = new HashMap();
-                                String key = tdEles.get(i).text();
-                                if (!StringUtils.isEmpty(key) && !key.contains("信息完整度")) {
-                                    String value = "";
-                                    if (key.contains("样本")) {
-                                        if (tdEles.get(i + 1).select("a").size() > 0) {
-                                            value = tdEles.get(i + 1).select("a").attr("abs:href");
-                                        } else {
-                                            value = tdEles.get(i + 1).text();
-                                        }
-                                    } else {
-                                        value = tdEles.get(i + 1).text();
-                                    }
-
-                                    paramMap.put("name", key.trim().replace("：", ""));
-                                    paramMap.put("value", value.trim());
-                                    paramList.add(paramMap);
-                                }
-
-                            }
-                        }
-                    }
-                });
-                product.setParamList(paramList);
-            }
-
-            Elements desc = doc.select("div[class=BrWh Line]");
-            if (desc.size() > 0) {
-                product.setGoodsDesc(desc.html());
-            }
             page.putField("product", product);
+        } else {
+
         }
     }
 
@@ -178,7 +108,7 @@ public class IchemistryProcessor implements PageProcessor {
 //                .addUrl("http://www.ichemistry.cn/chemtool/chemicals.asp")
                 .addUrl("http://www.ichemistry.cn/chemistry/50-00-0.htm")
 //                .addPipeline(simplePipeline)
-                .addPipeline(new InstrumentPipeline())
+                .addPipeline(new IchemistryPipeline())
                 .setUUID("http://www.ichemistry.cn")  //spider 使用uuid确定唯一性
                 .thread(1);
         downloader.setUUID(spider.getUUID());
