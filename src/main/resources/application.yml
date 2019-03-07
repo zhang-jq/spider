@@ -14,4 +14,5 @@ logging:
     com.spider.gbwchina: debug
     org.springframework.web: debug
     org.mybatis: debug
+    org: debug
   file: D:\gbwchina.log

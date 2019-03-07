@@ -1,8 +1,11 @@
 package com.zjq.spider.dao;
 
 import com.zjq.spider.model.Product;
+import com.zjq.spider.model.ProductFile;
 import com.zjq.spider.model.ProductParam;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface ProductDao {
 
@@ -50,4 +53,29 @@ public interface ProductDao {
      * @return
      */
     int deleteParamByTableName(@Param("productId") Integer productId, @Param("tableName") String tableName);
+
+    /**
+     * 添加文件
+     * @param productFile
+     * @param tableName
+     * @return
+     */
+    int addFileByTableName(@Param("productFile") ProductFile productFile, @Param("tableName") String tableName);
+
+    /**
+     * 获取文件
+     * @param productFile
+     * @param tableName
+     * @return
+     */
+    List<ProductFile> findProductFile(@Param("productFile") ProductFile productFile, @Param("tableName") String tableName);
+
+    /**
+     * 修改文件信息
+     * @param productFile
+     * @param tableName
+     * @return
+     */
+    int updateProductFile(@Param("productFile") ProductFile productFile, @Param("tableName") String tableName);
+
 }

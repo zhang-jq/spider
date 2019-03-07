@@ -2,11 +2,13 @@ package com.zjq.spider.service.impl;
 
 import com.zjq.spider.dao.ProductDao;
 import com.zjq.spider.model.Product;
+import com.zjq.spider.model.ProductFile;
 import com.zjq.spider.model.ProductParam;
 import com.zjq.spider.service.ProductService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -53,5 +55,20 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public int deleteParamByTableName(Integer productId, String tableName) {
         return productDao.deleteParamByTableName(productId, tableName);
+    }
+
+    @Override
+    public int addFileByTableName(ProductFile productFile, String tableName) {
+        return productDao.addFileByTableName(productFile, tableName);
+    }
+
+    @Override
+    public List<ProductFile> findProductFile(ProductFile productFile, String tableName) {
+        return productDao.findProductFile(productFile, tableName);
+    }
+
+    @Override
+    public int updateProductFile(ProductFile productFile, String tableName) {
+        return productDao.updateProductFile(productFile, tableName);
     }
 }

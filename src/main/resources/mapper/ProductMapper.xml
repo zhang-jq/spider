@@ -86,6 +86,8 @@
         goods_url,
         goods_sn,
         goods_name,
+        goods_english_name,
+        goods_alias,
         cat,
         goods_number,
         goods_weight,
@@ -95,7 +97,11 @@
         params,
         standard_value,
         cds_number,
+        cas_number,
         development_unit,
+        molecular_structure,
+        molecular_formula,
+        molecular_weight,
         updated_time,
         created_time)
           VALUES
@@ -103,6 +109,8 @@
             #{product.goodsUrl},
             #{product.goodsSn},
             #{product.goodsName},
+            #{product.goodsEnglishName},
+            #{product.goodsAlias},
             #{product.cat},
             #{product.goodsNumber},
             #{product.goodsWeight},
@@ -112,7 +120,11 @@
             #{product.params},
             #{product.standardValue},
             #{product.cdsNumber},
+            #{product.casNumber},
             #{product.developmentUnit},
+            #{product.molecularStructure},
+            #{product.molecularFormula},
+            #{product.molecularWeight},
             #{product.updatedTime},
             now()
         )
@@ -151,6 +163,24 @@
             <if test="product.developmentUnit != null and product.developmentUnit != ''">
                 development_unit = #{product.developmentUnit},
             </if>
+            <if test="product.goodsEnglishName != null and product.goodsEnglishName != ''">
+                goods_english_name = #{product.goodsEnglishName},
+            </if>
+            <if test="product.goodsAlias != null and product.goodsAlias != ''">
+                goods_alias = #{product.goodsAlias},
+            </if>
+            <if test="product.casNumber != null and product.casNumber != ''">
+                cas_number = #{product.casNumber},
+            </if>
+            <if test="product.molecularStructure != null and product.molecularStructure != ''">
+                molecular_structure = #{product.molecularStructure},
+            </if>
+            <if test="product.molecularFormula != null and product.molecularFormula != ''">
+                molecular_formula = #{product.molecularFormula},
+            </if>
+            <if test="product.molecularWeight != null and product.molecularWeight != ''">
+                molecular_weight = #{product.molecularWeight},
+            </if>
             updated_time = #{product.updatedTime}
         </set>
         WHERE goods_url = #{product.goodsUrl}
@@ -177,5 +207,45 @@
     <delete id="deleteParamByTableName">
         delete from ${tableName} where product_id = #{productId}
     </delete>
+
+    <insert id="addFileByTableName">
+        INSERT INTO ${tableName} (
+        goods_id,
+        goods_url,
+        goods_file_url,
+        goods_file_type,
+        status,
+        created_time
+        )
+          VALUES
+	    (
+            #{productFile.goodsId},
+            #{productFile.goodsUrl},
+            #{productFile.goodsFileUrl},
+            #{productFile.goodsFileType},
+            #{productFile.status},
+            now()
+        )
+    </insert>
+
+
+    <select id="findProductFile" resultType="com.zjq.spider.model.ProductFile">
+        select * from ${tableName}
+        <where>
+            status is null
+            <if test="productFile.goodsFileType != null and productFile.goodsFileType != ''">
+                and goods_file_type = #{productFile.goodsFileType}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateProductFile">
+        UPDATE ${tableName}
+        <set>
+            status = #{productFile.status},
+            updated_time = now()
+        </set>
+        WHERE id = #{productFile.id}
+    </update>
 
 </mapper>

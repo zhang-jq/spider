@@ -1,9 +1,11 @@
 package com.zjq.spider.scheduling;
 
 import com.zjq.spider.downloader.SimpleHttpClientDownloader;
+import com.zjq.spider.pipeline.IchemistryPipeline;
 import com.zjq.spider.pipeline.InstrumentPipeline;
 import com.zjq.spider.pipeline.SimplePipeline;
 import com.zjq.spider.processor.GbwChinaProcessor;
+import com.zjq.spider.processor.IchemistryProcessor;
 import com.zjq.spider.processor.InstrumentProcessor;
 import com.zjq.spider.spider.SimpleSpider;
 import org.slf4j.Logger;
@@ -31,36 +33,60 @@ public class SpiderScheduler {
     @Resource
     private InstrumentPipeline instrumentPipeline;
 
-    @Scheduled(cron = "0 0 0 1 * ?")
+    @Resource
+    private IchemistryPipeline ichemistryPipeline;
+
+        @Scheduled(cron = "0 0 0 1 * ?")
 //    @Scheduled(fixedRate = 1000 * 60 * 60)
     public void run() {
 
+//        try {
+//            SimpleHttpClientDownloader downloader = new SimpleHttpClientDownloader();
+//            SimpleSpider spider = SimpleSpider.create(new GbwChinaProcessor())
+//                    .addUrl("http://www.gbw-china.com")
+//                    .addPipeline(simplePipeline)
+//                    .setUUID(UUID.randomUUID().toString().replace("-", ""))
+//                    .thread(1);
+//            downloader.setUUID(spider.getUUID());
+//            spider.setDownloader(downloader);
+//
+//            try {
+//                SpiderMonitor.instance().register(spider);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            spider.start();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        try {
+//            SimpleHttpClientDownloader downloader = new SimpleHttpClientDownloader();
+//            SimpleSpider spider = SimpleSpider.create(new InstrumentProcessor())
+//                    .addUrl("https://www.instrument.com.cn")
+//                    .addPipeline(instrumentPipeline)
+//                    .setUUID(UUID.randomUUID().toString().replace("-", ""))
+//                    .thread(1);
+//            downloader.setUUID(spider.getUUID());
+//            spider.setDownloader(downloader);
+//
+//            try {
+//                SpiderMonitor.instance().register(spider);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            spider.start();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
         try {
             SimpleHttpClientDownloader downloader = new SimpleHttpClientDownloader();
-            SimpleSpider spider = SimpleSpider.create(new GbwChinaProcessor())
-                    .addUrl("http://www.gbw-china.com")
-                    .addPipeline(simplePipeline)
-                    .setUUID(UUID.randomUUID().toString().replace("-", ""))
-                    .thread(1);
-            downloader.setUUID(spider.getUUID());
-            spider.setDownloader(downloader);
-
-            try {
-                SpiderMonitor.instance().register(spider);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            spider.start();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
-            SimpleHttpClientDownloader downloader = new SimpleHttpClientDownloader();
-            SimpleSpider spider = SimpleSpider.create(new InstrumentProcessor())
-                    .addUrl("https://www.instrument.com.cn")
-                    .addPipeline(instrumentPipeline)
+            SimpleSpider spider = SimpleSpider.create(new IchemistryProcessor())
+                    .addUrl("http://www.ichemistry.cn/chemistry/50-04-4.htm")
+                    .addPipeline(ichemistryPipeline)
                     .setUUID(UUID.randomUUID().toString().replace("-", ""))
                     .thread(1);
             downloader.setUUID(spider.getUUID());

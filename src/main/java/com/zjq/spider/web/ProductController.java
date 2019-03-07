@@ -7,6 +7,7 @@ import com.zjq.spider.processor.GbwChinaProcessor;
 import com.zjq.spider.processor.InstrumentProcessor;
 import com.zjq.spider.service.ProductService;
 import com.zjq.spider.spider.SimpleSpider;
+import com.zjq.spider.util.DownFileUtil;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import us.codecraft.webmagic.monitor.SpiderMonitor;
@@ -22,6 +23,9 @@ public class ProductController {
 
     @Resource
     private InstrumentPipeline instrumentPipeline;
+
+    @Resource
+    private DownFileUtil downFileUtil;
 
     @GetMapping("/run")
     public String run() {
@@ -71,6 +75,12 @@ public class ProductController {
             e.printStackTrace();
         }
         return "执行任务失败！";
+    }
+
+    @GetMapping("/down-ichemistry-pic")
+    public String down() {
+        downFileUtil.down("product_ichemistry_file", "pic", "/home/zjq/downtest");
+        return "开始执行图片下载任务！";
     }
 
 }

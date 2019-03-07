@@ -16,8 +16,8 @@ import java.util.concurrent.TimeoutException;
 @MapperScan("com.zjq.spider.dao")
 public class SpiderApplication {
 
-    public static void main(String[] args) throws Exception {
-//        SpringApplication.run(SpiderApplication.class, args);
+    public static void main(String[] args) {
+        SpringApplication.run(SpiderApplication.class, args);
 
     }
 

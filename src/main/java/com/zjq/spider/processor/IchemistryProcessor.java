@@ -52,7 +52,6 @@ public class IchemistryProcessor implements PageProcessor {
                     alist.add(a.attr("abs:href"));
                 }
             });
-
             page.addTargetRequests(alist);
         } else if (url.contains("/chemistry") && url.contains(".htm")) {
             Elements trEles = doc.select("table[class=ChemicalInfo] tr");

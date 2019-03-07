@@ -1,7 +1,10 @@
 package com.zjq.spider.service;
 
 import com.zjq.spider.model.Product;
+import com.zjq.spider.model.ProductFile;
 import com.zjq.spider.model.ProductParam;
+
+import java.util.List;
 
 public interface ProductService {
 
@@ -50,4 +53,29 @@ public interface ProductService {
      * @return
      */
     int deleteParamByTableName(Integer productId, String tableName);
+
+    /**
+     * 添加文件
+     * @param productFile
+     * @param tableName
+     * @return
+     */
+    int addFileByTableName(ProductFile productFile, String tableName);
+
+    /**
+     * 获取文件
+     * @param productFile
+     * @param tableName
+     * @return
+     */
+    List<ProductFile> findProductFile(ProductFile productFile, String tableName);
+
+    /**
+     * 修改文件信息
+     * @param productFile
+     * @param tableName
+     * @return
+     */
+    int updateProductFile(ProductFile productFile, String tableName);
+
 }
