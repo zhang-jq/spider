@@ -78,4 +78,20 @@ public interface ProductDao {
      */
     int updateProductFile(@Param("productFile") ProductFile productFile, @Param("tableName") String tableName);
 
+    /**
+     * 保存chemistryProduct
+     * @param product
+     * @return
+     */
+    int saveIchemistryProduct(@Param("product") Product product);
+
+    /**
+     * 更新chemistryProduct
+     * @param product
+     * @return
+     */
+    int updateIchemistryProduct(@Param("product") Product product);
+
+
+
 }

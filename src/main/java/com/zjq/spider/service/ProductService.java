@@ -78,4 +78,18 @@ public interface ProductService {
      */
     int updateProductFile(ProductFile productFile, String tableName);
 
+    /**
+     * 保存chemistryProduct
+     * @param product
+     * @return
+     */
+    int saveIchemistryProduct(Product product);
+
+    /**
+     * 更新chemistryProduct
+     * @param product
+     * @return
+     */
+    int updateIchemistryProduct(Product product);
+
 }

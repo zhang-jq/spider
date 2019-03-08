@@ -86,6 +86,81 @@
         goods_url,
         goods_sn,
         goods_name,
+        cat,
+        goods_number,
+        goods_weight,
+        shop_price,
+        goods_desc,
+        goods_img,
+        params,
+        standard_value,
+        cds_number,
+        development_unit,
+        updated_time,
+        created_time)
+          VALUES
+	    (
+            #{product.goodsUrl},
+            #{product.goodsSn},
+            #{product.goodsName},
+            #{product.cat},
+            #{product.goodsNumber},
+            #{product.goodsWeight},
+            #{product.shopPrice},
+            #{product.goodsDesc},
+            #{product.goodsImg},
+            #{product.params},
+            #{product.standardValue},
+            #{product.cdsNumber},
+            #{product.developmentUnit},
+            #{product.updatedTime},
+            now()
+        )
+    </insert>
+
+    <update id="updateByTableName">
+        UPDATE ${tableName}
+        <set>
+            <if test="product.cat != null and product.cat != ''">
+                cat = #{product.cat},
+            </if>
+            <if test="product.goodsNumber != null and product.goodsNumber != ''">
+                goods_number = #{product.goodsNumber},
+            </if>
+            <if test="product.goodsWeight != null and product.goodsWeight != ''">
+                goods_weight = #{product.goodsWeight},
+            </if>
+            <if test="product.shopPrice != null and product.shopPrice != ''">
+                shop_price = #{product.shopPrice},
+            </if>
+            <if test="product.goodsDesc != null and product.goodsDesc != ''">
+                goods_desc = #{product.goodsDesc},
+            </if>
+            <if test="product.goodsImg != null and product.goodsImg != ''">
+                goods_img = #{product.goodsImg},
+            </if>
+            <if test="product.params != null and product.params != ''">
+                params = #{product.params},
+            </if>
+            <if test="product.standardValue != null and product.standardValue != ''">
+                standard_value = #{product.standardValue},
+            </if>
+            <if test="product.cdsNumber != null and product.cdsNumber != ''">
+                cds_number = #{product.cdsNumber},
+            </if>
+            <if test="product.developmentUnit != null and product.developmentUnit != ''">
+                development_unit = #{product.developmentUnit},
+            </if>
+            updated_time = #{product.updatedTime}
+        </set>
+        WHERE goods_url = #{product.goodsUrl}
+    </update>
+
+    <insert id="saveIchemistryProduct" useGeneratedKeys="true" keyProperty="product.goodsId">
+        INSERT INTO product_ichemistry (
+        goods_url,
+        goods_sn,
+        goods_name,
         goods_english_name,
         goods_alias,
         cat,
@@ -130,8 +205,8 @@
         )
     </insert>
 
-    <update id="updateByTableName">
-        UPDATE ${tableName}
+    <update id="updateIchemistryProduct">
+        UPDATE product_ichemistry
         <set>
             <if test="product.cat != null and product.cat != ''">
                 cat = #{product.cat},
@@ -232,9 +307,15 @@
     <select id="findProductFile" resultType="com.zjq.spider.model.ProductFile">
         select * from ${tableName}
         <where>
-            status is null
+
             <if test="productFile.goodsFileType != null and productFile.goodsFileType != ''">
                 and goods_file_type = #{productFile.goodsFileType}
+            </if>
+            <if test="productFile.status != null and productFile.status != '' and productFile.status != 'all'">
+                and status = #{productFile.status}
+            </if>
+            <if test="productFile.status == null">
+                and status is null
             </if>
         </where>
     </select>

@@ -13,6 +13,7 @@ import us.codecraft.webmagic.pipeline.Pipeline;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 /**
  * User: zjq
@@ -35,28 +36,43 @@ public class IchemistryPipeline implements Pipeline {
     @Override
     public void process(ResultItems resultItems, Task task) {
         Product product = resultItems.get("product");
-        if (product == null)
-            return;
-        Product oldProduct = productService.findByUrlByTableName(product.getGoodsUrl(), TABLE);
-        if (oldProduct != null) {
-            oldProduct.setUpdatedTime(new Date());
-            oldProduct.setGoodsName(product.getGoodsName());
-            oldProduct.setGoodsEnglishName(product.getGoodsEnglishName());
-            oldProduct.setGoodsAlias(product.getGoodsAlias());
-            oldProduct.setGoodsDesc(product.getGoodsDesc());
-            oldProduct.setCasNumber(product.getCasNumber());
-            oldProduct.setMolecularFormula(product.getMolecularFormula());
-            oldProduct.setMolecularStructure(product.getMolecularStructure());
-            oldProduct.setMolecularWeight(product.getMolecularWeight());
-            productService.updateByTableName(oldProduct, TABLE);
-        } else {
-            int id = productService.saveByTableName(product, TABLE);
-            ProductFile productFile = ProductFile.builder()
-                    .goodsId(id)
-                    .goodsUrl(product.getGoodsUrl())
-                    .goodsFileUrl(product.getMolecularStructure())
-                    .goodsFileType("pic").build();
-            productService.addFileByTableName(productFile, FILE_TABLE);
+        if (product != null) {
+            Product oldProduct = productService.findByUrlByTableName(product.getGoodsUrl(), TABLE);
+            if (oldProduct != null) {
+                oldProduct.setUpdatedTime(new Date());
+                oldProduct.setGoodsName(product.getGoodsName());
+                oldProduct.setGoodsEnglishName(product.getGoodsEnglishName());
+                oldProduct.setGoodsAlias(product.getGoodsAlias());
+                oldProduct.setGoodsDesc(product.getGoodsDesc());
+                oldProduct.setCasNumber(product.getCasNumber());
+                oldProduct.setMolecularFormula(product.getMolecularFormula());
+                oldProduct.setMolecularStructure(product.getMolecularStructure());
+                oldProduct.setMolecularWeight(product.getMolecularWeight());
+                productService.updateIchemistryProduct(oldProduct);
+            } else {
+                int id = productService.saveIchemistryProduct(product);
+                ProductFile productFile = ProductFile.builder()
+                        .goodsId(id)
+                        .goodsUrl(product.getGoodsUrl())
+                        .goodsFileUrl(product.getMolecularStructure())
+                        .goodsFileType("pic").build();
+                productService.addFileByTableName(productFile, FILE_TABLE);
+            }
         }
+        Integer num = resultItems.get("pdfNum");
+        if (num != null) {
+            ProductFile p = ProductFile.builder().goodsFileType("pdf").status("all").build();
+            List<ProductFile> productFileList = productService.findProductFile(p, FILE_TABLE);
+            if (num > productFileList.size())
+                for (int i = productFileList.size() + 1; i < num; i++) {
+                    String url = "http://www.ichemistry.cn/msds/pdf/vip" + i + ".pdf";
+                    ProductFile productFile = ProductFile.builder().goodsFileType("pdf").goodsFileUrl(url)
+                            .goodsUrl("http://www.ichemistry.cn/msds/" + i + ".htm").build();
+                    productService.addFileByTableName(productFile, FILE_TABLE);
+
+                }
+
+        }
+
     }
 }

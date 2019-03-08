@@ -86,8 +86,28 @@ public class IchemistryProcessor implements PageProcessor {
                 }
             });
             page.putField("product", product);
-        } else {
-
+        } else if (url.contains("www.ichemistry.cn/msds")) {
+            //如果含Page则是尾页
+            if (url.contains("Page")) {
+                //获取最后一个产品数字，因为该产品名按数字自增生成，获取最后一个就能知道所有产品
+                Elements trEles = doc.select("#BodyBox table").get(0).select("tbody tr");
+                if (trEles.size() > 0) {
+                    Elements aEles = trEles.get(trEles.size() - 1).select("a");
+                    if (aEles.size() > 0) {
+                        String msds = aEles.get(0).text();
+                        Integer num = Integer.valueOf(msds.replace("MSDS#" , ""));
+                        page.putField("pdfNum", num);
+                    }
+                }
+            } else {
+                //获取尾页
+                Elements aEles = doc.select("p[align=center] a");
+                aEles.stream().forEach(a -> {
+                    if (a.text().contains("尾")) {
+                        page.addTargetRequest(a.attr("abs:href"));
+                    }
+                });
+            }
         }
     }
 
