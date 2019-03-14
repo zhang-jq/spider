@@ -96,7 +96,11 @@ public class IchemistryProcessor implements PageProcessor {
                     if (aEles.size() > 0) {
                         String msds = aEles.get(0).text();
                         Integer num = Integer.valueOf(msds.replace("MSDS#" , ""));
-                        page.putField("pdfNum", num);
+                        if (url.contains("novip")) {
+                            page.putField("noVipPdfNum", num);
+                        } else {
+                            page.putField("pdfNum", num);
+                        }
                     }
                 }
             } else {
@@ -115,7 +119,7 @@ public class IchemistryProcessor implements PageProcessor {
     public Site getSite() {
         Site site = Constant.site()
                 .setTimeOut(120 * 1000)
-                .setSleepTime(0)
+                .setSleepTime(2000)
                 .setCharset("UTF-8").setDisableCookieManagement(true);
         return site;
     }

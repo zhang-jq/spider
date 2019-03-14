@@ -60,6 +60,7 @@ public class IchemistryPipeline implements Pipeline {
             }
         }
         Integer num = resultItems.get("pdfNum");
+
         if (num != null) {
             ProductFile p = ProductFile.builder().goodsFileType("pdf").status("all").build();
             List<ProductFile> productFileList = productService.findProductFile(p, FILE_TABLE);
@@ -67,6 +68,21 @@ public class IchemistryPipeline implements Pipeline {
                 for (int i = productFileList.size() + 1; i < num; i++) {
                     String url = "http://www.ichemistry.cn/msds/pdf/vip" + i + ".pdf";
                     ProductFile productFile = ProductFile.builder().goodsFileType("pdf").goodsFileUrl(url)
+                            .goodsUrl("http://www.ichemistry.cn/msds/" + i + ".htm").build();
+                    productService.addFileByTableName(productFile, FILE_TABLE);
+
+                }
+
+        }
+
+        Integer noVipNum = resultItems.get("noVipPdfNum");
+        if (noVipNum != null) {
+            ProductFile p = ProductFile.builder().goodsFileType("noVipPdf").status("all").build();
+            List<ProductFile> productFileList = productService.findProductFile(p, FILE_TABLE);
+            if (noVipNum > productFileList.size())
+                for (int i = productFileList.size() + 1; i < noVipNum; i++) {
+                    String url = "http://www.ichemistry.cn/msds/pdf/" + i + ".pdf";
+                    ProductFile productFile = ProductFile.builder().goodsFileType("noVipPdf").goodsFileUrl(url)
                             .goodsUrl("http://www.ichemistry.cn/msds/" + i + ".htm").build();
                     productService.addFileByTableName(productFile, FILE_TABLE);
 

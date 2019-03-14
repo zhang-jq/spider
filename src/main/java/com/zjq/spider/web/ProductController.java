@@ -10,6 +10,7 @@ import com.zjq.spider.processor.InstrumentProcessor;
 import com.zjq.spider.service.ProductService;
 import com.zjq.spider.spider.SimpleSpider;
 import com.zjq.spider.util.DownFileUtil;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import us.codecraft.webmagic.monitor.SpiderMonitor;
@@ -83,11 +84,12 @@ public class ProductController {
     }
 
     @GetMapping("/run-ichemistry")
-    public String runIchemistry() {
+    public String runIchemistry(String page) {
+        String url = StringUtils.isEmpty(page) ? "http://www.ichemistry.cn/chemtool/chemicals.asp" : "http://www.ichemistry.cn/chemtool/chemicals.asp?Page=" + page;
         try {
             SimpleHttpClientDownloader downloader = new SimpleHttpClientDownloader();
             SimpleSpider spider = SimpleSpider.create(new IchemistryProcessor())
-                    .addUrl("http://www.ichemistry.cn/chemtool/chemicals.asp")
+                    .addUrl(url)
                     .addPipeline(ichemistryPipeline)
                     .setUUID(UUID.randomUUID().toString().replace("-", ""))
                     .thread(1);
@@ -108,11 +110,13 @@ public class ProductController {
     }
 
     @GetMapping("/run-ichemistry-pdf")
-    public String runIchemistryPdf() {
+    public String runIchemistryPdf(boolean isVip) {
+        //判断是否下载vip版的pdf
+        String url = isVip ? "http://www.ichemistry.cn/msds/" : "http://www.ichemistry.cn/msds/?type=novip";
         try {
             SimpleHttpClientDownloader downloader = new SimpleHttpClientDownloader();
             SimpleSpider spider = SimpleSpider.create(new IchemistryProcessor())
-                    .addUrl("http://www.ichemistry.cn/msds/")
+                    .addUrl(url)
                     .addPipeline(ichemistryPipeline)
                     .setUUID(UUID.randomUUID().toString().replace("-", ""))
                     .thread(1);
@@ -139,8 +143,9 @@ public class ProductController {
     }
 
     @GetMapping("/down-ichemistry-pdf")
-    public String downIchemistryPdf() {
-        downFileUtil.down("product_ichemistry_file", "pdf", "D:\\SpiderFile\\Ichemistry\\pdf");
+    public String downIchemistryPdf(boolean isVip) {
+        String type = isVip ? "pdf" : "noVipPdf";
+        downFileUtil.down("product_ichemistry_file", type, "D:\\SpiderFile\\Ichemistry\\pdf");
         return "开始执行PDF下载任务！";
     }
 
