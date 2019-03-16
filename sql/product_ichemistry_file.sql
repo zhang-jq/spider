@@ -29,7 +29,7 @@ CREATE TABLE `product_ichemistry_file`  (
   `goods_file_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件类型',
   `status` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '状态',
   `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_time` timestamp(0) NULL DEFAULT NULL,
+  `updated_time` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 

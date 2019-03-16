@@ -92,4 +92,33 @@ public interface ProductService {
      */
     int updateIchemistryProduct(Product product);
 
+
+    /**
+     * 保存chemistryProduct的MSDS
+     * @param product
+     * @return
+     */
+    int saveIchemistryProductMsds(Product product);
+
+    /**
+     * 更新chemistryProduct的MSDS
+     * @param product
+     * @return
+     */
+    int updateIchemistryProductMsds(Product product);
+
+    /**
+     * 保存chemistryProduct的危險化学品
+     * @param product
+     * @return
+     */
+    int saveIchemistryProductDanger(Product product);
+
+    /**
+     * 更新chemistryProduct的的危險化学品
+     * @param product
+     * @return
+     */
+    int updateIchemistryProductDanger(Product product);
+
 }

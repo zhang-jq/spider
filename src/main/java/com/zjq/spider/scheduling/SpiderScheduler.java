@@ -40,89 +40,89 @@ public class SpiderScheduler {
 //    @Scheduled(fixedRate = 1000 * 60 * 60)
     public void run() {
 
-        try {
-            SimpleHttpClientDownloader downloader = new SimpleHttpClientDownloader();
-            SimpleSpider spider = SimpleSpider.create(new GbwChinaProcessor())
-                    .addUrl("http://www.gbw-china.com")
-                    .addPipeline(simplePipeline)
-                    .setUUID(UUID.randomUUID().toString().replace("-", ""))
-                    .thread(1);
-            downloader.setUUID(spider.getUUID());
-            spider.setDownloader(downloader);
-
-            try {
-                SpiderMonitor.instance().register(spider);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            spider.start();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
-            SimpleHttpClientDownloader downloader = new SimpleHttpClientDownloader();
-            SimpleSpider spider = SimpleSpider.create(new InstrumentProcessor())
-                    .addUrl("https://www.instrument.com.cn")
-                    .addPipeline(instrumentPipeline)
-                    .setUUID(UUID.randomUUID().toString().replace("-", ""))
-                    .thread(1);
-            downloader.setUUID(spider.getUUID());
-            spider.setDownloader(downloader);
-
-            try {
-                SpiderMonitor.instance().register(spider);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            spider.start();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
-            SimpleHttpClientDownloader downloader = new SimpleHttpClientDownloader();
-            SimpleSpider spider = SimpleSpider.create(new IchemistryProcessor())
-                    .addUrl("http://www.ichemistry.cn/chemtool/chemicals.asp")
-                    .addPipeline(ichemistryPipeline)
-                    .setUUID(UUID.randomUUID().toString().replace("-", ""))
-                    .thread(1);
-            downloader.setUUID(spider.getUUID());
-            spider.setDownloader(downloader);
-
-            try {
-                SpiderMonitor.instance().register(spider);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            spider.start();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
-            SimpleHttpClientDownloader downloader = new SimpleHttpClientDownloader();
-            SimpleSpider spider = SimpleSpider.create(new IchemistryProcessor())
-                    .addUrl("http://www.ichemistry.cn/msds/")
-                    .addPipeline(ichemistryPipeline)
-                    .setUUID(UUID.randomUUID().toString().replace("-", ""))
-                    .thread(1);
-            downloader.setUUID(spider.getUUID());
-            spider.setDownloader(downloader);
-
-            try {
-                SpiderMonitor.instance().register(spider);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            spider.start();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            SimpleHttpClientDownloader downloader = new SimpleHttpClientDownloader();
+//            SimpleSpider spider = SimpleSpider.create(new GbwChinaProcessor())
+//                    .addUrl("http://www.gbw-china.com")
+//                    .addPipeline(simplePipeline)
+//                    .setUUID(UUID.randomUUID().toString().replace("-", ""))
+//                    .thread(1);
+//            downloader.setUUID(spider.getUUID());
+//            spider.setDownloader(downloader);
+//
+//            try {
+//                SpiderMonitor.instance().register(spider);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            spider.start();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        try {
+//            SimpleHttpClientDownloader downloader = new SimpleHttpClientDownloader();
+//            SimpleSpider spider = SimpleSpider.create(new InstrumentProcessor())
+//                    .addUrl("https://www.instrument.com.cn")
+//                    .addPipeline(instrumentPipeline)
+//                    .setUUID(UUID.randomUUID().toString().replace("-", ""))
+//                    .thread(1);
+//            downloader.setUUID(spider.getUUID());
+//            spider.setDownloader(downloader);
+//
+//            try {
+//                SpiderMonitor.instance().register(spider);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            spider.start();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        try {
+//            SimpleHttpClientDownloader downloader = new SimpleHttpClientDownloader();
+//            SimpleSpider spider = SimpleSpider.create(new IchemistryProcessor())
+//                    .addUrl("http://www.ichemistry.cn/chemtool/chemicals.asp")
+//                    .addPipeline(ichemistryPipeline)
+//                    .setUUID(UUID.randomUUID().toString().replace("-", ""))
+//                    .thread(1);
+//            downloader.setUUID(spider.getUUID());
+//            spider.setDownloader(downloader);
+//
+//            try {
+//                SpiderMonitor.instance().register(spider);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            spider.start();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        try {
+//            SimpleHttpClientDownloader downloader = new SimpleHttpClientDownloader();
+//            SimpleSpider spider = SimpleSpider.create(new IchemistryProcessor())
+//                    .addUrl("http://www.ichemistry.cn/msds/")
+//                    .addPipeline(ichemistryPipeline)
+//                    .setUUID(UUID.randomUUID().toString().replace("-", ""))
+//                    .thread(1);
+//            downloader.setUUID(spider.getUUID());
+//            spider.setDownloader(downloader);
+//
+//            try {
+//                SpiderMonitor.instance().register(spider);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            spider.start();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
 }

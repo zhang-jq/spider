@@ -92,6 +92,33 @@ public interface ProductDao {
      */
     int updateIchemistryProduct(@Param("product") Product product);
 
+    /**
+     * 保存chemistryProduct的MSDS
+     * @param product
+     * @return
+     */
+    int saveIchemistryProductMsds(@Param("product") Product product);
+
+    /**
+     * 更新chemistryProduct的MSDS
+     * @param product
+     * @return
+     */
+    int updateIchemistryProductMsds(@Param("product") Product product);
+
+    /**
+     * 保存chemistryProduct的危險化学品
+     * @param product
+     * @return
+     */
+    int saveIchemistryProductDanger(@Param("product") Product product);
+
+    /**
+     * 更新chemistryProduct的的危險化学品
+     * @param product
+     * @return
+     */
+    int updateIchemistryProductDanger(@Param("product") Product product);
 
 
 }

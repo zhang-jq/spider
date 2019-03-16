@@ -109,10 +109,62 @@ public class ProductController {
         return "执行任务失败！";
     }
 
+    @GetMapping("/run-ichemistry-msds")
+    public String runIchemistryMsds(String page) {
+        String url = StringUtils.isEmpty(page) ? "http://www.ichemistry.cn/msds/index.asp" : "http://www.ichemistry.cn/msds/index.asp?Page=" + page;
+        try {
+            SimpleHttpClientDownloader downloader = new SimpleHttpClientDownloader();
+            SimpleSpider spider = SimpleSpider.create(new IchemistryProcessor())
+                    .addUrl(url)
+                    .addPipeline(ichemistryPipeline)
+                    .setUUID(UUID.randomUUID().toString().replace("-", ""))
+                    .thread(1);
+            downloader.setUUID(spider.getUUID());
+            spider.setDownloader(downloader);
+
+            try {
+                SpiderMonitor.instance().register(spider);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            spider.start();
+            return "开始执行任务！";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "执行任务失败！";
+    }
+
+    @GetMapping("/run-ichemistry-danger")
+    public String runIchemistryDanger(String page) {
+        String url = StringUtils.isEmpty(page) ? "http://www.ichemistry.cn/weixianpin/index.asp" : "http://www.ichemistry.cn/weixianpin/index.asp?Page=" + page;
+        try {
+            SimpleHttpClientDownloader downloader = new SimpleHttpClientDownloader();
+            SimpleSpider spider = SimpleSpider.create(new IchemistryProcessor())
+                    .addUrl(url)
+                    .addPipeline(ichemistryPipeline)
+                    .setUUID(UUID.randomUUID().toString().replace("-", ""))
+                    .thread(1);
+            downloader.setUUID(spider.getUUID());
+            spider.setDownloader(downloader);
+
+            try {
+                SpiderMonitor.instance().register(spider);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            spider.start();
+            return "开始执行任务！";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "执行任务失败！";
+    }
+
     @GetMapping("/run-ichemistry-pdf")
     public String runIchemistryPdf(boolean isVip) {
         //判断是否下载vip版的pdf
-        String url = isVip ? "http://www.ichemistry.cn/msds/" : "http://www.ichemistry.cn/msds/?type=novip";
+        String url = isVip ? "http://www.ichemistry.cn/msds/?flag=pdf" : "http://www.ichemistry.cn/msds/?type=novip&flag=pdf";
         try {
             SimpleHttpClientDownloader downloader = new SimpleHttpClientDownloader();
             SimpleSpider spider = SimpleSpider.create(new IchemistryProcessor())

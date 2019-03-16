@@ -100,6 +100,14 @@ public class Product {
      * CAS号
      */
     private String casNumber;
+    /**
+     * UN编号
+     */
+    private String unNumber;
+    /**
+     * 危险货物编号
+     */
+    private String dangerousGoodsNumber;
 
     /**
      * 研制单位

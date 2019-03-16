@@ -81,4 +81,24 @@ public class ProductServiceImpl implements ProductService {
     public int updateIchemistryProduct(Product product) {
         return productDao.updateIchemistryProduct(product);
     }
+
+    @Override
+    public int saveIchemistryProductMsds(Product product) {
+        return productDao.saveIchemistryProductMsds(product);
+    }
+
+    @Override
+    public int updateIchemistryProductMsds(Product product) {
+        return productDao.updateIchemistryProductMsds(product);
+    }
+
+    @Override
+    public int saveIchemistryProductDanger(Product product) {
+        return productDao.saveIchemistryProductDanger(product);
+    }
+
+    @Override
+    public int updateIchemistryProductDanger(Product product) {
+        return productDao.updateIchemistryProductDanger(product);
+    }
 }
