@@ -87,7 +87,7 @@ public class IchemistryProcessor implements PageProcessor {
                         product.setMolecularWeight(value);
                         doc.select("table[class=ChemicalInfo] tr").get(i - flag++).remove();
                     } else if (name.contains("CAS登录号")) {
-                        product.setCasNumber(value);
+                        product.setCasNumber("\"" + value + "\"");
                         doc.select("table[class=ChemicalInfo] tr").get(i - flag++).remove();
                     } else if (name.contains("msds报告")) {//不要这个
                         doc.select("table[class=ChemicalInfo] tr").get(i - flag++).remove();
@@ -150,7 +150,7 @@ public class IchemistryProcessor implements PageProcessor {
                     product.setGoodsNumber(tdEles.get(0).text());
                     product.setGoodsName(tdEles.get(1).text());
                     product.setGoodsEnglishName(tdEles.get(2).text());
-                    product.setCasNumber(tdEles.get(3).text());
+                    product.setCasNumber("\"" + tdEles.get(3).text() + "\"");
                     product.setUnNumber(tdEles.get(4).text());
                     product.setDangerousGoodsNumber(tdEles.get(5).text());
                     products.add(product);
@@ -193,7 +193,7 @@ public class IchemistryProcessor implements PageProcessor {
                     product.setGoodsDesc(tdEles.get(2).text());
                     product.setGoodsName(tdEles.get(3).text());
                     product.setGoodsEnglishName(tdEles.get(4).text());
-                    product.setCasNumber(tdEles.get(5).text());
+                    product.setCasNumber("\"" + tdEles.get(5).text() + "\"");
                     products.add(product);
                 }
             });
@@ -221,11 +221,11 @@ public class IchemistryProcessor implements PageProcessor {
 
         SimpleSpider spider = SimpleSpider.create(new IchemistryProcessor())
 //                .addUrl("http://www.ichemistry.cn/chemtool/chemicals.asp")
-//                .addUrl("http://www.ichemistry.cn/chemistry/50-00-0.htm")
+                .addUrl("http://www.ichemistry.cn/chemistry/50-00-0.htm")
 //                .addUrl("http://www.ichemistry.cn/msds/")
 //                .addUrl("http://www.ichemistry.cn/msds/?type=novip&flag=pdf")
 //                .addUrl("http://www.ichemistry.cn/msds/1.htm")
-                .addUrl("http://www.ichemistry.cn/weixianpin/index.asp?Page=1")
+//                .addUrl("http://www.ichemistry.cn/weixianpin/index.asp?Page=1")
 //                .addPipeline(simplePipeline)
                 .addPipeline(new IchemistryPipeline())
                 .setUUID("http://www.ichemistry.cn")  //spider 使用uuid确定唯一性
