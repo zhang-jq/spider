@@ -39,7 +39,24 @@ public class IchemistryProcessor implements PageProcessor {
         if (doc == null) {
             return;
         }
-        if (url.contains("/chemtool/chemicals.asp")) {
+        if (url.contains("type=getAllUrl")) {//抓取所有产品链接
+            List productUrls = new ArrayList();
+            Elements trEles = doc.select("#container-right tbody tr");
+            trEles.stream().forEach(tr -> {
+                Elements aEles = tr.select("a");
+                if (aEles.size() > 0) {
+                    productUrls.add(aEles.get(0).attr("abs:href"));
+                }
+            });
+            doc.select("p[align=center] a").stream().forEach(a -> {
+                if (a.text().contains("下一页")) {
+                    page.addTargetRequest(a.attr("abs:href") + "&type=getAllUrl");
+                }
+            });
+
+            page.putField("productUrls", productUrls);
+
+        } else if (url.contains("/chemtool/chemicals.asp")) {
             List alist = new ArrayList();
             Elements trEles = doc.select("#container-right tbody tr");
             trEles.stream().forEach(tr -> {
@@ -95,7 +112,6 @@ public class IchemistryProcessor implements PageProcessor {
                 } else {//如果td数量少于2，则是标题或者广告或者无用信息，标题只去除“相关化学品信息”和“CAS Number”，其他都去除
                     //包含trclass，说明是标题
                     if (!tr.html().contains("trclass") || tr.html().contains("相关化学品信息") || tr.html().contains("CAS Number")) {
-                        System.out.println(i);
                         doc.select("table[class=ChemicalInfo] tr").get(i - flag++).remove();
                     }
                 }
@@ -211,7 +227,7 @@ public class IchemistryProcessor implements PageProcessor {
     public Site getSite() {
         Site site = Constant.site()
                 .setTimeOut(120 * 1000)
-                .setSleepTime(2000)
+                .setSleepTime(1001)
                 .setCharset("GBK").setDisableCookieManagement(true);
         return site;
     }

@@ -3,6 +3,7 @@ package com.zjq.spider.dao;
 import com.zjq.spider.model.Product;
 import com.zjq.spider.model.ProductFile;
 import com.zjq.spider.model.ProductParam;
+import com.zjq.spider.model.ProductUrl;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -119,6 +120,20 @@ public interface ProductDao {
      * @return
      */
     int updateIchemistryProductDanger(@Param("product") Product product);
+
+    /**
+     * 保存产品链接
+     * @param productUrl
+     * @return
+     */
+    int saveProductUrl(@Param("productUrl") ProductUrl productUrl);
+
+    /**
+     * 获取还没抓取产品的链接
+     * @return
+     */
+    List<ProductUrl> findNotSpiderProductUrl(@Param("productUrl") ProductUrl productUrl, @Param("tableName") String tableName);
+
 
 
 }

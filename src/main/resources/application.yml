@@ -11,8 +11,8 @@ spring:
     password: root
 logging:
   level:
-    com.spider.gbwchina: debug
+    com.zjq.spider: debug
     org.springframework.web: debug
     org.mybatis: debug
-    org: debug
+#    org: debug
   file: D:\gbwchina.log

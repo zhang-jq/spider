@@ -3,6 +3,7 @@ package com.zjq.spider.service;
 import com.zjq.spider.model.Product;
 import com.zjq.spider.model.ProductFile;
 import com.zjq.spider.model.ProductParam;
+import com.zjq.spider.model.ProductUrl;
 
 import java.util.List;
 
@@ -120,5 +121,19 @@ public interface ProductService {
      * @return
      */
     int updateIchemistryProductDanger(Product product);
+
+
+    /**
+     * 保存产品链接
+     * @param productUrl
+     * @return
+     */
+    int saveProductUrl(ProductUrl productUrl);
+
+    /**
+     * 获取还没抓取产品的链接
+     * @return
+     */
+    List<ProductUrl> findNotSpiderProductUrl(ProductUrl productUrl, String tableName);
 
 }

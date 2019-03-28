@@ -1,6 +1,7 @@
 package com.zjq.spider.web;
 
 import com.zjq.spider.downloader.SimpleHttpClientDownloader;
+import com.zjq.spider.model.ProductUrl;
 import com.zjq.spider.pipeline.IchemistryPipeline;
 import com.zjq.spider.pipeline.InstrumentPipeline;
 import com.zjq.spider.pipeline.SimplePipeline;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import us.codecraft.webmagic.monitor.SpiderMonitor;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 public class ProductController {
@@ -32,6 +35,9 @@ public class ProductController {
 
     @Resource
     private IchemistryPipeline ichemistryPipeline;
+
+    @Resource
+    private ProductService productService;
 
     @GetMapping("/run")
     public String run() {
@@ -90,6 +96,69 @@ public class ProductController {
             SimpleHttpClientDownloader downloader = new SimpleHttpClientDownloader();
             SimpleSpider spider = SimpleSpider.create(new IchemistryProcessor())
                     .addUrl(url)
+                    .addPipeline(ichemistryPipeline)
+                    .setUUID(UUID.randomUUID().toString().replace("-", ""))
+                    .thread(1);
+            downloader.setUUID(spider.getUUID());
+            spider.setDownloader(downloader);
+
+            try {
+                SpiderMonitor.instance().register(spider);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            spider.start();
+            return "开始执行任务！";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "执行任务失败！";
+    }
+
+    /**
+     * 获取所有连接
+     * @return
+     */
+    @GetMapping("/run-ichemistry-get-url")
+    public String runIchemistryGetUrl() {
+        String url = "http://www.ichemistry.cn/chemtool/chemicals.asp?type=getAllUrl";
+        try {
+            SimpleHttpClientDownloader downloader = new SimpleHttpClientDownloader();
+            SimpleSpider spider = SimpleSpider.create(new IchemistryProcessor())
+                    .addUrl(url)
+                    .addPipeline(ichemistryPipeline)
+                    .setUUID(UUID.randomUUID().toString().replace("-", ""))
+                    .thread(1);
+            downloader.setUUID(spider.getUUID());
+            spider.setDownloader(downloader);
+
+            try {
+                SpiderMonitor.instance().register(spider);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            spider.start();
+            return "开始执行任务！";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "执行任务失败！";
+    }
+
+    /**
+     * 根据上面方法抓取的链接抓取产品
+     * @param page
+     * @return
+     */
+    @GetMapping("/run-ichemistry-by-url")
+    public String runIchemistryByUrl(String page) {
+        //获取还未爬虫的链接
+        List<ProductUrl> productUrls = productService.findNotSpiderProductUrl(ProductUrl.builder().type("ichemistry").build(), "product_ichemistry");
+        List<String> urls = productUrls.stream().map(productUrl -> productUrl.getUrl()).collect(Collectors.toList());
+        try {
+            SimpleHttpClientDownloader downloader = new SimpleHttpClientDownloader();
+            SimpleSpider spider = SimpleSpider.create(new IchemistryProcessor())
+                    .addUrl(urls.toArray(new String[urls.size()]))
                     .addPipeline(ichemistryPipeline)
                     .setUUID(UUID.randomUUID().toString().replace("-", ""))
                     .thread(1);

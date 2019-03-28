@@ -4,6 +4,7 @@ import com.zjq.spider.dao.ProductDao;
 import com.zjq.spider.model.Product;
 import com.zjq.spider.model.ProductFile;
 import com.zjq.spider.model.ProductParam;
+import com.zjq.spider.model.ProductUrl;
 import com.zjq.spider.service.ProductService;
 import org.springframework.stereotype.Service;
 
@@ -100,5 +101,15 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public int updateIchemistryProductDanger(Product product) {
         return productDao.updateIchemistryProductDanger(product);
+    }
+
+    @Override
+    public int saveProductUrl(ProductUrl productUrl) {
+        return productDao.saveProductUrl(productUrl);
+    }
+
+    @Override
+    public List<ProductUrl> findNotSpiderProductUrl(ProductUrl productUrl, String tableName) {
+        return productDao.findNotSpiderProductUrl(productUrl, tableName);
     }
 }
