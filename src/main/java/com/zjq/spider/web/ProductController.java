@@ -120,8 +120,9 @@ public class ProductController {
      * @return
      */
     @GetMapping("/run-ichemistry-get-url")
-    public String runIchemistryGetUrl() {
-        String url = "http://www.ichemistry.cn/chemtool/chemicals.asp?type=getAllUrl";
+    public String runIchemistryGetUrl(String page) {
+//        String url = "http://www.ichemistry.cn/chemtool/chemicals.asp?type=getAllUrl";
+        String url = StringUtils.isEmpty(page) ? "http://www.ichemistry.cn/chemtool/chemicals.asp?type=getAllUrl" : "http://www.ichemistry.cn/chemtool/chemicals.asp?type=getAllUrl&Page=" + page;
         try {
             SimpleHttpClientDownloader downloader = new SimpleHttpClientDownloader();
             SimpleSpider spider = SimpleSpider.create(new IchemistryProcessor())

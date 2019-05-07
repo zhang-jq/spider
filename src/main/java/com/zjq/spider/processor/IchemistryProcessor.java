@@ -50,7 +50,13 @@ public class IchemistryProcessor implements PageProcessor {
             });
             doc.select("p[align=center] a").stream().forEach(a -> {
                 if (a.text().contains("下一页")) {
-                    page.addTargetRequest(a.attr("abs:href") + "&type=getAllUrl");
+                    String nextUrl = a.attr("abs:href");
+                    if (!StringUtils.isEmpty(nextUrl) && nextUrl.contains("type=getAllUrl")) {
+                        page.addTargetRequest(nextUrl);
+                    } else if (!StringUtils.isEmpty(nextUrl)){
+                        page.addTargetRequest(nextUrl + "&type=getAllUrl");
+                    }
+
                 }
             });
 

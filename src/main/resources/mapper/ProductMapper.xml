@@ -561,7 +561,9 @@
 
     <insert id="saveProductUrl" parameterType="com.zjq.spider.model.ProductUrl">
         INSERT INTO product_url ( url, type, created_time )
-        VALUES (#{productUrl.url}, #{productUrl.type}, now())
+        ( SELECT #{productUrl.url}, #{productUrl.type}, now()
+        FROM product_url WHERE NOT EXISTS
+        ( SELECT * FROM product_url WHERE url = #{productUrl.url} ) LIMIT 1 );
     </insert>
 
     <select id="findNotSpiderProductUrl" resultType="com.zjq.spider.model.ProductUrl">
